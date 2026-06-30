@@ -6,23 +6,22 @@
     <title>Deno React Boilerplate — A Foundation for Scalable Cross-Platform Desktop Apps</title>
     <meta
       name="description"
-      content="A desktop-app boilerplate built on deno desktop + React. Native TypeScript, esbuild bundling, hot reloading — no Node, no webpack."
+      content="A desktop-app boilerplate built on deno desktop + React. Native TypeScript, esbuild bundling — no Node, no webpack."
     />
     <link
       rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2322c55e' stroke-width='1.6'%3E%3Ccircle cx='12' cy='12' r='1.7' fill='%2322c55e' stroke='none'/%3E%3Cellipse cx='12' cy='12' rx='10' ry='4'/%3E%3Cellipse cx='12' cy='12' rx='10' ry='4' transform='rotate(60 12 12)'/%3E%3Cellipse cx='12' cy='12' rx='10' ry='4' transform='rotate(120 12 12)'/%3E%3C/svg%3E"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2316a34a' stroke-width='1.6'%3E%3Ccircle cx='12' cy='12' r='1.7' fill='%2316a34a' stroke='none'/%3E%3Cellipse cx='12' cy='12' rx='10' ry='4'/%3E%3Cellipse cx='12' cy='12' rx='10' ry='4' transform='rotate(60 12 12)'/%3E%3Cellipse cx='12' cy='12' rx='10' ry='4' transform='rotate(120 12 12)'/%3E%3C/svg%3E"
     />
     <style>
     :root {
-      --green: #22c55e;
-      --green-bright: #4ade80;
-      --green-dark: #16a34a;
-      --bg: #07140d;
-      --bg-soft: #0c2018;
-      --card: #0f2a1d;
-      --border: #1d4332;
-      --fg: #eafff3;
-      --muted: #8fcaa9;
+      --green: #16a34a;
+      --green-2: #22c55e;
+      --green-3: #4ade80;
+      --ink: #1f2937;
+      --muted: #6b7280;
+      --bg: #ffffff;
+      --bg-soft: #f6f7f8;
+      --border: #e5e7eb;
     }
     * {
       box-sizing: border-box;
@@ -34,295 +33,200 @@
       margin: 0;
       font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
       background: var(--bg);
-      color: var(--fg);
+      color: var(--ink);
       line-height: 1.6;
     }
     a {
-      color: var(--green-bright);
+      color: inherit;
       text-decoration: none;
     }
-    a:hover {
-      text-decoration: underline;
-    }
     .container {
-      max-width: 1040px;
+      max-width: 1180px;
       margin: 0 auto;
       padding: 0 1.5rem;
     }
 
-    /* Header */
+    /* Top banner */
+    .banner {
+      background: #ecfdf5;
+      border-bottom: 1px solid #d1fae5;
+      text-align: center;
+      font-size: 0.9rem;
+      padding: 0.55rem 1rem;
+      color: #166534;
+    }
+    .banner a {
+      color: #166534;
+      font-weight: 600;
+      text-decoration: underline;
+    }
+
+    /* Header / nav */
     header {
       position: sticky;
       top: 0;
-      z-index: 10;
-      backdrop-filter: blur(10px);
-      background: rgba(7, 20, 13, 0.8);
+      z-index: 20;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--border);
     }
     .nav {
       display: flex;
       align-items: center;
       gap: 1.5rem;
-      height: 64px;
+      height: 66px;
     }
     .brand {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.55rem;
       font-weight: 700;
-      color: var(--fg);
       font-size: 1.05rem;
+      white-space: nowrap;
     }
     .brand .logo {
       width: 26px;
       height: 26px;
-      color: var(--green-bright);
+      color: var(--green);
     }
-    .sprite {
-      position: absolute;
-      width: 0;
-      height: 0;
-      overflow: hidden;
-    }
-    .icon {
-      display: block;
-      width: 32px;
-      height: 32px;
-    }
-    .nav .spacer {
+    .tabs {
+      display: flex;
+      align-items: center;
+      gap: 1.35rem;
       flex: 1;
     }
-    .nav a {
-      color: var(--muted);
+    .tabs a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      color: var(--ink);
       font-weight: 500;
+      font-size: 0.95rem;
     }
-    .nav a:hover {
-      color: var(--green-bright);
-      text-decoration: none;
+    .tabs a:hover {
+      color: var(--green);
     }
-    @media (max-width: 640px) {
-      .nav .hide-sm {
+    .ext {
+      width: 13px;
+      height: 13px;
+      color: var(--muted);
+    }
+    .search {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      border: 1px solid var(--border);
+      background: var(--bg-soft);
+      border-radius: 10px;
+      padding: 0.4rem 0.7rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .search svg {
+      width: 15px;
+      height: 15px;
+    }
+    .search .kbd {
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 0 0.35rem;
+      font-size: 0.75rem;
+      background: #fff;
+    }
+    @media (max-width: 900px) {
+      .tabs .opt {
+        display: none;
+      }
+      .search .label,
+      .search .kbd {
         display: none;
       }
     }
 
     /* Hero */
     .hero {
+      background: linear-gradient(115deg, #047857 0%, #16a34a 42%, #22c55e 72%,
+        #6ee7a8 100%);
+      color: #fff;
       text-align: center;
-      padding: 6rem 0 4rem;
-      background:
-        radial-gradient(
-        ellipse 60% 60% at 50% 0%,
-        rgba(34, 197, 94, 0.18),
-        transparent 70%
-      );
-    }
-    .hero .logo-big {
-      width: 76px;
-      height: 76px;
-      margin: 0 auto;
-      color: var(--green-bright);
+      padding: 5.5rem 1.5rem 5rem;
     }
     .hero h1 {
-      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-size: clamp(2.2rem, 5.5vw, 3.5rem);
       font-weight: 800;
-      margin: 1rem 0 0.5rem;
-      background: linear-gradient(120deg, var(--fg), var(--green-bright));
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
+      margin: 0 0 0.6rem;
+      letter-spacing: -0.5px;
     }
-    .hero p.tagline {
-      font-size: 1.2rem;
-      color: var(--muted);
-      max-width: 640px;
-      margin: 0 auto 2rem;
-    }
-    .badges {
-      display: flex;
-      gap: 0.5rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin: 0 auto 2rem;
-    }
-    .badge {
-      font-size: 0.78rem;
-      color: var(--green-bright);
-      border: 1px solid var(--border);
-      background: var(--bg-soft);
-      border-radius: 999px;
-      padding: 0.2rem 0.7rem;
-    }
-    .cta {
-      display: flex;
-      gap: 0.8rem;
-      justify-content: center;
-      flex-wrap: wrap;
+    .hero p {
+      font-size: 1.25rem;
+      margin: 0 0 2rem;
+      opacity: 0.95;
     }
     .btn {
       display: inline-block;
-      padding: 0.8rem 1.6rem;
+      background: #fff;
+      color: #065f46;
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding: 0.85rem 2rem;
       border-radius: 10px;
-      font-weight: 600;
-      font-size: 1rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     }
-    .btn-primary {
-      background: var(--green);
-      color: #04130a;
-    }
-    .btn-primary:hover {
-      background: var(--green-bright);
-      text-decoration: none;
-    }
-    .btn-ghost {
-      border: 1px solid var(--border);
-      color: var(--fg);
-      background: var(--bg-soft);
-    }
-    .btn-ghost:hover {
-      border-color: var(--green);
-      text-decoration: none;
-    }
-
-    /* Sections */
-    section.block {
-      padding: 4rem 0;
-      border-top: 1px solid var(--border);
-    }
-    h2.section-title {
-      text-align: center;
-      font-size: 1.9rem;
-      margin: 0 0 0.5rem;
-    }
-    p.section-sub {
-      text-align: center;
-      color: var(--muted);
-      margin: 0 auto 2.5rem;
-      max-width: 600px;
+    .btn:hover {
+      transform: translateY(-1px);
     }
 
     /* Features */
     .features {
+      padding: 4.5rem 0;
+    }
+    .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.2rem;
-    }
-    .feature {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.6rem;
-    }
-    .feature .icon {
-      color: var(--green-bright);
-      margin-bottom: 0.8rem;
-    }
-    .foot-logo {
-      width: 18px;
-      height: 18px;
-      vertical-align: -3px;
-      margin-right: 0.4rem;
-      color: var(--green-bright);
-    }
-    .ico-xs {
-      width: 14px;
-      height: 14px;
-      vertical-align: -2px;
-      margin-right: 0.35rem;
-      color: var(--green-bright);
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2.5rem;
     }
     .feature h3 {
-      margin: 0 0 0.4rem;
-      font-size: 1.15rem;
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin: 0 0 0.6rem;
     }
     .feature p {
       margin: 0;
       color: var(--muted);
-      font-size: 0.95rem;
     }
-
-    /* Mapping table */
-    .table-wrap {
-      overflow-x: auto;
-      border: 1px solid var(--border);
-      border-radius: 14px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.94rem;
-    }
-    th,
-    td {
-      padding: 0.85rem 1rem;
-      text-align: left;
-      border-bottom: 1px solid var(--border);
-    }
-    th {
-      background: var(--bg-soft);
-      color: var(--green-bright);
-      font-weight: 600;
-    }
-    tr:last-child td {
-      border-bottom: none;
-    }
-    td code,
-    .code-inline {
-      background: var(--bg-soft);
-      padding: 0.1rem 0.4rem;
-      border-radius: 5px;
-      font-size: 0.86em;
-      color: var(--green-bright);
-    }
-
-    /* Code block */
-    pre {
-      background: #04100a;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.3rem 1.5rem;
-      overflow-x: auto;
-      max-width: 640px;
-      margin: 0 auto;
-    }
-    pre code {
-      font-family: "SF Mono", ui-monospace, Menlo, monospace;
-      font-size: 0.9rem;
-      color: var(--fg);
-    }
-    .tok-c {
-      color: var(--muted);
-    }
-    .tok-g {
-      color: var(--green-bright);
+    .feature .accent {
+      color: var(--green);
     }
 
     /* Footer */
     footer {
-      border-top: 1px solid var(--border);
-      padding: 3rem 0;
       background: var(--bg-soft);
+      border-top: 1px solid var(--border);
+      padding: 3rem 0 2rem;
     }
     .foot-grid {
       display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 2rem;
     }
     .foot-grid h4 {
-      color: var(--fg);
-      margin: 0 0 0.8rem;
       font-size: 0.95rem;
+      margin: 0 0 0.9rem;
     }
     .foot-grid ul {
       list-style: none;
-      padding: 0;
       margin: 0;
+      padding: 0;
     }
     .foot-grid li {
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.5rem;
     }
     .foot-grid a {
       color: var(--muted);
+      font-size: 0.95rem;
+    }
+    .foot-grid a:hover {
+      color: var(--green);
     }
     .copyright {
       text-align: center;
@@ -339,7 +243,8 @@
   </head>
   <body>
     <!-- Inline SVG icon sprite (no system/emoji icons) -->
-    <svg class="sprite" aria-hidden="true" focusable="false">
+    <svg style="position: absolute; width: 0; height: 0" aria-hidden="true"
+      focusable="false">
       <defs>
         <symbol id="i-logo" viewBox="0 0 24 24" fill="none"
           stroke="currentColor" stroke-width="1.6">
@@ -350,50 +255,24 @@
           <ellipse cx="12" cy="12" rx="10" ry="4"
             transform="rotate(120 12 12)" />
         </symbol>
-        <symbol id="i-bolt" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round"
-          stroke-linejoin="round">
-          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+        <symbol id="i-ext" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+          stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+          <polyline points="15 3 21 3 21 9" />
+          <line x1="10" y1="14" x2="21" y2="3" />
         </symbol>
-        <symbol id="i-code" viewBox="0 0 24 24" fill="none"
+        <symbol id="i-search" viewBox="0 0 24 24" fill="none"
           stroke="currentColor" stroke-width="2" stroke-linecap="round"
           stroke-linejoin="round">
-          <polyline points="16 18 22 12 16 6" />
-          <polyline points="8 6 2 12 8 18" />
-        </symbol>
-        <symbol id="i-package" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round"
-          stroke-linejoin="round">
-          <path d="M16.5 9.4 7.5 4.21" />
-          <path
-            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-          <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
-          <line x1="12" y1="22.08" x2="12" y2="12" />
-        </symbol>
-        <symbol id="i-lock" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round"
-          stroke-linejoin="round">
-          <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-          <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-        </symbol>
-        <symbol id="i-refresh" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round"
-          stroke-linejoin="round">
-          <polyline points="23 4 23 10 17 10" />
-          <polyline points="1 20 1 14 7 14" />
-          <path
-            d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
-        </symbol>
-        <symbol id="i-beaker" viewBox="0 0 24 24" fill="none"
-          stroke="currentColor" stroke-width="2" stroke-linecap="round"
-          stroke-linejoin="round">
-          <path
-            d="M9 3v6l-4.6 8.6A1.5 1.5 0 0 0 5.7 20h12.6a1.5 1.5 0 0 0 1.3-2.4L15 9V3" />
-          <line x1="8" y1="3" x2="16" y2="3" />
-          <line x1="6.5" y1="14" x2="17.5" y2="14" />
+          <circle cx="11" cy="11" r="7" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
         </symbol>
       </defs>
     </svg>
+
+    <div class="banner">
+      New: <a href="https://github.com/quochuydev/deno-react-boilerplate/releases/latest">v0.1.0 is out — download the macOS app →</a>
+    </div>
 
     <header>
       <div class="container nav">
@@ -403,179 +282,65 @@
           </svg>
           <span>Deno React Boilerplate</span>
         </a>
-        <span class="spacer"></span>
-        <a href="#features" class="hide-sm">Features</a>
-        <a href="#architecture" class="hide-sm">Architecture</a>
-        <a href="#start">Get Started</a>
-        <a
-          href="https://github.com/quochuydev/deno-react-boilerplate">GitHub</a>
+        <nav class="tabs">
+          <a
+            href="https://github.com/quochuydev/deno-react-boilerplate#readme">Docs</a>
+          <a href="#features">Features</a>
+          <a class="opt"
+            href="https://github.com/quochuydev/deno-react-boilerplate/releases/latest">Download</a>
+          <a class="opt"
+            href="https://github.com/quochuydev/deno-react-boilerplate/tree/main/src/renderer">Examples <svg class="ext" aria-hidden="true"><use href="#i-ext" /></svg></a>
+          <a
+            href="https://github.com/quochuydev/deno-react-boilerplate">GitHub <svg class="ext" aria-hidden="true"><use href="#i-ext" /></svg></a>
+          <a class="opt"
+            href="https://github.com/quochuydev/deno-react-boilerplate/releases">Releases <svg class="ext" aria-hidden="true"><use href="#i-ext" /></svg></a>
+          <a class="opt"
+            href="https://deno.com/blog/v2.9#deno-desktop">Blog <svg class="ext" aria-hidden="true"><use href="#i-ext" /></svg></a>
+        </nav>
+        <span class="search">
+          <svg aria-hidden="true">
+            <use href="#i-search" />
+          </svg>
+          <span class="label">Search</span>
+          <span class="kbd">⌘K</span>
+        </span>
       </div>
     </header>
 
     <main id="top">
-      <!-- Hero -->
-      <div class="hero">
-        <div class="container">
-          <svg class="logo-big" aria-hidden="true">
-            <use href="#i-logo" />
-          </svg>
-          <h1>A Foundation for Scalable Cross-Platform Desktop Apps</h1>
-          <p class="tagline">
-            A desktop-app boilerplate built on <strong>deno desktop</strong> + <strong>React</strong>.
-            Native TypeScript, offline-ready esbuild bundling, and hot reloading —
-            <em>no Node, no webpack</em>.
-          </p>
-          <div class="badges">
-            <span class="badge">Deno 2.x</span>
-            <span class="badge">React 19</span>
-            <span class="badge">esbuild</span>
-            <span class="badge">TypeScript</span>
-            <span class="badge">MIT License</span>
-          </div>
-          <div class="cta">
-            <a class="btn btn-primary" href="#start">Get Started</a>
-            <a class="btn btn-ghost"
-              href="https://github.com/quochuydev/deno-react-boilerplate">View on GitHub</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Features -->
-      <section class="block" id="features">
-        <div class="container">
-          <h2 class="section-title">Everything you need, nothing you don't</h2>
-          <p class="section-sub">
-            A complete starting point for cross-platform desktop apps on the Deno runtime.
-          </p>
-          <div class="features">
-            <div class="feature">
-              <svg class="icon" aria-hidden="true">
-                <use href="#i-bolt" />
-              </svg>
-              <h3>Faster Iteration: Hot Reloading</h3>
-              <p>
-                Edit your app and see changes instantly. <span class="code-inline">deno desktop --hmr</span>
-                pairs with an esbuild watch build so the renderer refreshes without a full restart.
-              </p>
-            </div>
-            <div class="feature">
-              <svg class="icon" aria-hidden="true">
-                <use href="#i-code" />
-              </svg>
-              <h3>Scalable: Native TypeScript</h3>
-              <p>
-                Deno runs TypeScript with zero config. Shared channel types flow across the
-                main process and renderer, so RPC calls are type-checked end to end.
-              </p>
-            </div>
-            <div class="feature">
-              <svg class="icon" aria-hidden="true">
-                <use href="#i-package" />
-              </svg>
-              <h3>Performance: esbuild Bundling</h3>
-              <p>
-                The renderer is bundled and minified by esbuild — React included locally, no CDN.
-                Tree-shaking and offline-ready builds come out of the box, ideal for kiosks.
-              </p>
-            </div>
-            <div class="feature">
-              <svg class="icon" aria-hidden="true">
-                <use href="#i-lock" />
-              </svg>
-              <h3>Secure by Default</h3>
-              <p>
-                Deno's permission model means the app only gets the network and file access you
-                grant it — a safer baseline than a full Node runtime.
-              </p>
-            </div>
-            <div class="feature">
-              <svg class="icon" aria-hidden="true">
-                <use href="#i-refresh" />
-              </svg>
-              <h3>Built-in Auto-Update</h3>
-              <p>
-                <span class="code-inline">Deno.autoUpdate</span> polls your release server and stages
-                signed bsdiff patches to apply on next launch — wired up and ready.
-              </p>
-            </div>
-            <div class="feature">
-              <svg class="icon" aria-hidden="true">
-                <use href="#i-beaker" />
-              </svg>
-              <h3>Batteries Included</h3>
-              <p>
-                <span class="code-inline">deno fmt</span>, <span class="code-inline">deno lint</span>,
-                and <span class="code-inline">deno test</span> replace ESLint, Prettier, and Jest —
-                one toolchain, no extra dependencies.
-              </p>
-            </div>
-          </div>
-        </div>
+      <section class="hero">
+        <h1>Deno React Boilerplate</h1>
+        <p>A Foundation for Scalable Cross-Platform Desktop Apps</p>
+        <a class="btn"
+          href="https://github.com/quochuydev/deno-react-boilerplate#readme">Get Started</a>
       </section>
 
-      <!-- Architecture -->
-      <section class="block" id="architecture">
-        <div class="container">
-          <h2 class="section-title">How it's organized</h2>
-          <p class="section-sub">
-            A clear split between the Deno backend and your React UI, wired together over a typed RPC bridge.
-          </p>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Part</th>
-                  <th>Responsibility</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><code>src/main/</code></td>
-                  <td>Deno backend — local server, auto-update, and RPC handlers</td>
-                </tr>
-                <tr>
-                  <td><code>src/preload/bridge.ts</code></td>
-                  <td>Injects <code>window.eva</code>, the renderer's typed RPC client</td>
-                </tr>
-                <tr>
-                  <td><code>/rpc/:channel</code></td>
-                  <td>How the UI talks to the backend via <code>window.eva.invoke()</code></td>
-                </tr>
-                <tr>
-                  <td><code>src/renderer/</code></td>
-                  <td>Your React UI, rendered in the native webview</td>
-                </tr>
-                <tr>
-                  <td><code>deno.json</code> + esbuild</td>
-                  <td>Tasks, dependencies, and the renderer bundle</td>
-                </tr>
-                <tr>
-                  <td><code>deno fmt / lint / test</code></td>
-                  <td>Formatting, linting, and tests — built in</td>
-                </tr>
-              </tbody>
-            </table>
+      <section class="features" id="features">
+        <div class="container grid">
+          <div class="feature">
+            <h3><span class="accent">Native Desktop:</span> One Command</h3>
+            <p>
+              <code>deno desktop</code> turns your React UI into a real native
+              window and packages it into a signed app — no Node, no Electron,
+              no webpack to configure.
+            </p>
           </div>
-        </div>
-      </section>
-
-      <!-- Get started -->
-      <section class="block" id="start">
-        <div class="container">
-          <h2 class="section-title">Get Started</h2>
-          <p class="section-sub">
-            Clone, then launch the native window. You'll need
-            <a href="https://deno.com/">Deno 2.x</a>.
-          </p>
-          <pre><code><span class="tok-c"># clone the boilerplate</span>
-git clone https://github.com/quochuydev/deno-react-boilerplate
-<span class="tok-g">cd</span> deno-react-boilerplate
-
-<span class="tok-c"># build the renderer + open the desktop window</span>
-deno task start
-
-<span class="tok-c"># or preview in a browser without the native window</span>
-deno task serve   <span class="tok-c"># http://localhost:8000</span></code></pre>
+          <div class="feature">
+            <h3><span class="accent">Scalable:</span> Native TypeScript</h3>
+            <p>
+              Deno runs TypeScript with zero config. Shared channel types flow
+              across the backend and the UI, so calls are type-checked from end
+              to end.
+            </p>
+          </div>
+          <div class="feature">
+            <h3><span class="accent">Performance:</span> esbuild Bundling</h3>
+            <p>
+              The UI is bundled and minified by esbuild, with React included
+              locally — tree-shaken, offline-ready builds straight out of the
+              box.
+            </p>
+          </div>
         </div>
       </section>
     </main>
@@ -584,30 +349,29 @@ deno task serve   <span class="tok-c"># http://localhost:8000</span></code></pre
       <div class="container">
         <div class="foot-grid">
           <div>
-            <h4><svg class="foot-logo" aria-hidden="true"><use href="#i-logo" /></svg>Deno React Boilerplate</h4>
-            <p style="color: var(--muted); margin: 0; max-width: 36ch">
-              A foundation for scalable cross-platform desktop apps, built on Deno + React.
-            </p>
-          </div>
-          <div>
             <h4>Docs</h4>
             <ul>
-              <li><a href="#start">Getting Started</a></li>
-              <li><a href="#architecture">Architecture</a></li>
-              <li><a href="https://github.com/quochuydev/deno-react-boilerplate#readme">README</a></li>
+              <li><a href="https://github.com/quochuydev/deno-react-boilerplate#readme">Getting Started</a></li>
+              <li><a href="https://github.com/quochuydev/deno-react-boilerplate/releases/latest">Download</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Community</h4>
+            <ul>
+              <li><a href="https://github.com/quochuydev/deno-react-boilerplate">GitHub</a></li>
+              <li><a href="https://github.com/quochuydev/deno-react-boilerplate/issues">Issues</a></li>
+              <li><a href="https://deno.com/blog/v2.9#deno-desktop">Deno Desktop</a></li>
             </ul>
           </div>
           <div>
             <h4>More</h4>
             <ul>
-              <li><a href="https://github.com/quochuydev/deno-react-boilerplate">GitHub</a></li>
               <li><a href="https://deno.com/">Deno</a></li>
               <li><a href="https://react.dev/">React</a></li>
             </ul>
           </div>
         </div>
         <p class="copyright">
-          <svg class="ico-xs" aria-hidden="true"><use href="#i-logo" /></svg>
           Built with Deno + React. MIT Licensed.
         </p>
       </div>
