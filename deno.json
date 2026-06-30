@@ -1,0 +1,44 @@
+{
+  "version": "0.1.0",
+  "tasks": {
+    "build:renderer": "deno run -A scripts/build_renderer.ts",
+    "dev": "deno run -A scripts/build_renderer.ts --watch & deno desktop --hmr main.ts",
+    "start": "deno task build:renderer && deno desktop main.ts",
+    "serve": "deno task build:renderer && deno run --allow-net --allow-read main.ts",
+    "build:mac": "deno task build:renderer && deno desktop --output release/EvaKiosk.dmg main.ts",
+    "build:all": "deno task build:renderer && deno desktop --all-targets main.ts",
+    "fmt": "deno fmt",
+    "lint": "deno lint",
+    "test": "deno test -A"
+  },
+  "nodeModulesDir": "auto",
+  "imports": {
+    "react": "npm:react@19",
+    "react-dom": "npm:react-dom@19",
+    "react-dom/client": "npm:react-dom@19/client",
+    "react/jsx-runtime": "npm:react@19/jsx-runtime",
+    "react-router": "npm:react-router@7",
+    "esbuild": "npm:esbuild@0.25.0"
+  },
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    "lib": ["deno.window", "dom", "dom.iterable", "dom.asynciterable"],
+    "types": ["./desktop.d.ts"]
+  },
+  "desktop": {
+    "app": {
+      "name": "Eva Kiosk",
+      "identifier": "io.medialpha.eva.kiosk"
+    },
+    "release": {
+      "baseUrl": "https://releases.example.com/eva-kiosk"
+    }
+  },
+  "fmt": {
+    "exclude": ["dist/", "release/", "**/*.app"]
+  },
+  "lint": {
+    "exclude": ["dist/", "release/", "**/*.app"]
+  }
+}

@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Deno React Boilerplate — A Foundation for Scalable Cross-Platform Desktop Apps</title>
+    <meta
+      name="description"
+      content="A desktop-app boilerplate built on deno desktop + React. Native TypeScript, esbuild bundling, hot reloading — no Node, no webpack."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A6%95%3C/text%3E%3C/svg%3E"
+    />
+    <style>
+    :root {
+      --green: #22c55e;
+      --green-bright: #4ade80;
+      --green-dark: #16a34a;
+      --bg: #07140d;
+      --bg-soft: #0c2018;
+      --card: #0f2a1d;
+      --border: #1d4332;
+      --fg: #eafff3;
+      --muted: #8fcaa9;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+    }
+    a {
+      color: var(--green-bright);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Header */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(10px);
+      background: rgba(7, 20, 13, 0.8);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      height: 64px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 700;
+      color: var(--fg);
+      font-size: 1.05rem;
+    }
+    .brand .logo {
+      font-size: 1.6rem;
+    }
+    .nav .spacer {
+      flex: 1;
+    }
+    .nav a {
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .nav a:hover {
+      color: var(--green-bright);
+      text-decoration: none;
+    }
+    @media (max-width: 640px) {
+      .nav .hide-sm {
+        display: none;
+      }
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 6rem 0 4rem;
+      background:
+        radial-gradient(
+        ellipse 60% 60% at 50% 0%,
+        rgba(34, 197, 94, 0.18),
+        transparent 70%
+      );
+    }
+    .hero .logo-big {
+      font-size: 4.5rem;
+      line-height: 1;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-weight: 800;
+      margin: 1rem 0 0.5rem;
+      background: linear-gradient(120deg, var(--fg), var(--green-bright));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p.tagline {
+      font-size: 1.2rem;
+      color: var(--muted);
+      max-width: 640px;
+      margin: 0 auto 2rem;
+    }
+    .badges {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 0 auto 2rem;
+    }
+    .badge {
+      font-size: 0.78rem;
+      color: var(--green-bright);
+      border: 1px solid var(--border);
+      background: var(--bg-soft);
+      border-radius: 999px;
+      padding: 0.2rem 0.7rem;
+    }
+    .cta {
+      display: flex;
+      gap: 0.8rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 1.6rem;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .btn-primary {
+      background: var(--green);
+      color: #04130a;
+    }
+    .btn-primary:hover {
+      background: var(--green-bright);
+      text-decoration: none;
+    }
+    .btn-ghost {
+      border: 1px solid var(--border);
+      color: var(--fg);
+      background: var(--bg-soft);
+    }
+    .btn-ghost:hover {
+      border-color: var(--green);
+      text-decoration: none;
+    }
+
+    /* Sections */
+    section.block {
+      padding: 4rem 0;
+      border-top: 1px solid var(--border);
+    }
+    h2.section-title {
+      text-align: center;
+      font-size: 1.9rem;
+      margin: 0 0 0.5rem;
+    }
+    p.section-sub {
+      text-align: center;
+      color: var(--muted);
+      margin: 0 auto 2.5rem;
+      max-width: 600px;
+    }
+
+    /* Features */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.2rem;
+    }
+    .feature {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.6rem;
+    }
+    .feature .icon {
+      font-size: 1.8rem;
+      margin-bottom: 0.6rem;
+    }
+    .feature h3 {
+      margin: 0 0 0.4rem;
+      font-size: 1.15rem;
+    }
+    .feature p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* Mapping table */
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.94rem;
+    }
+    th,
+    td {
+      padding: 0.85rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th {
+      background: var(--bg-soft);
+      color: var(--green-bright);
+      font-weight: 600;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    td code,
+    .code-inline {
+      background: var(--bg-soft);
+      padding: 0.1rem 0.4rem;
+      border-radius: 5px;
+      font-size: 0.86em;
+      color: var(--green-bright);
+    }
+
+    /* Code block */
+    pre {
+      background: #04100a;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.3rem 1.5rem;
+      overflow-x: auto;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    pre code {
+      font-family: "SF Mono", ui-monospace, Menlo, monospace;
+      font-size: 0.9rem;
+      color: var(--fg);
+    }
+    .tok-c {
+      color: var(--muted);
+    }
+    .tok-g {
+      color: var(--green-bright);
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 0;
+      background: var(--bg-soft);
+    }
+    .foot-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 2rem;
+    }
+    .foot-grid h4 {
+      color: var(--fg);
+      margin: 0 0 0.8rem;
+      font-size: 0.95rem;
+    }
+    .foot-grid ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .foot-grid li {
+      margin-bottom: 0.4rem;
+    }
+    .foot-grid a {
+      color: var(--muted);
+    }
+    .copyright {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-top: 2.5rem;
+    }
+    @media (max-width: 640px) {
+      .foot-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container nav">
+        <a class="brand" href="#top">
+          <span class="logo">🦕</span>
+          <span>Deno React Boilerplate</span>
+        </a>
+        <span class="spacer"></span>
+        <a href="#features" class="hide-sm">Features</a>
+        <a href="#architecture" class="hide-sm">Architecture</a>
+        <a href="#start">Get Started</a>
+        <a
+          href="https://github.com/quochuydev/deno-react-boilerplate">GitHub</a>
+      </div>
+    </header>
+
+    <main id="top">
+      <!-- Hero -->
+      <div class="hero">
+        <div class="container">
+          <div class="logo-big">🦕⚛️</div>
+          <h1>A Foundation for Scalable Cross-Platform Desktop Apps</h1>
+          <p class="tagline">
+            A desktop-app boilerplate built on <strong>deno desktop</strong> + <strong>React</strong>.
+            Native TypeScript, offline-ready esbuild bundling, and hot reloading —
+            <em>no Node, no webpack</em>.
+          </p>
+          <div class="badges">
+            <span class="badge">Deno 2.x</span>
+            <span class="badge">React 19</span>
+            <span class="badge">esbuild</span>
+            <span class="badge">TypeScript</span>
+            <span class="badge">MIT License</span>
+          </div>
+          <div class="cta">
+            <a class="btn btn-primary" href="#start">Get Started</a>
+            <a class="btn btn-ghost"
+              href="https://github.com/quochuydev/deno-react-boilerplate">View on GitHub</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Features -->
+      <section class="block" id="features">
+        <div class="container">
+          <h2 class="section-title">Everything you need, nothing you don't</h2>
+          <p class="section-sub">
+            The electron-react-boilerplate experience, reimagined on the Deno runtime.
+          </p>
+          <div class="features">
+            <div class="feature">
+              <div class="icon">⚡</div>
+              <h3>Faster Iteration: Hot Reloading</h3>
+              <p>
+                Edit your app and see changes instantly. <span class="code-inline">deno desktop --hmr</span>
+                pairs with an esbuild watch build so the renderer refreshes without a full restart.
+              </p>
+            </div>
+            <div class="feature">
+              <div class="icon">🧩</div>
+              <h3>Scalable: Native TypeScript</h3>
+              <p>
+                Deno runs TypeScript with zero config. Shared channel types flow across the
+                main process and renderer, so RPC calls are type-checked end to end.
+              </p>
+            </div>
+            <div class="feature">
+              <div class="icon">📦</div>
+              <h3>Performance: esbuild Bundling</h3>
+              <p>
+                The renderer is bundled and minified by esbuild — React included locally, no CDN.
+                Tree-shaking and offline-ready builds come out of the box, ideal for kiosks.
+              </p>
+            </div>
+            <div class="feature">
+              <div class="icon">🔒</div>
+              <h3>Secure by Default</h3>
+              <p>
+                Deno's permission model means the app only gets the network and file access you
+                grant it — a safer baseline than a full Node runtime.
+              </p>
+            </div>
+            <div class="feature">
+              <div class="icon">🔄</div>
+              <h3>Built-in Auto-Update</h3>
+              <p>
+                <span class="code-inline">Deno.autoUpdate</span> polls your release server and stages
+                signed bsdiff patches to apply on next launch — wired up and ready.
+              </p>
+            </div>
+            <div class="feature">
+              <div class="icon">🧪</div>
+              <h3>Batteries Included</h3>
+              <p>
+                <span class="code-inline">deno fmt</span>, <span class="code-inline">deno lint</span>,
+                and <span class="code-inline">deno test</span> replace ESLint, Prettier, and Jest —
+                one toolchain, no extra dependencies.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Architecture -->
+      <section class="block" id="architecture">
+        <div class="container">
+          <h2 class="section-title">From Electron to Deno</h2>
+          <p class="section-sub">
+            Same mental model as electron-react-boilerplate — mapped onto the Deno desktop runtime.
+          </p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Electron concept</th>
+                  <th>Here (Deno + React)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Main process (Node)</td>
+                  <td><code>src/main/</code> — server, auto-update, RPC handlers</td>
+                </tr>
+                <tr>
+                  <td>Preload / context bridge</td>
+                  <td><code>src/preload/bridge.ts</code> → injected <code>window.eva</code></td>
+                </tr>
+                <tr>
+                  <td>IPC (ipcMain / ipcRenderer)</td>
+                  <td>HTTP-RPC routes <code>/rpc/:channel</code> + <code>window.eva.invoke()</code></td>
+                </tr>
+                <tr>
+                  <td>Renderer (React in Chromium)</td>
+                  <td><code>src/renderer/</code> — React in the webview</td>
+                </tr>
+                <tr>
+                  <td>webpack (.erb/configs)</td>
+                  <td><code>deno.json</code> tasks + esbuild</td>
+                </tr>
+                <tr>
+                  <td>package.json / tsconfig.json</td>
+                  <td><code>deno.json</code></td>
+                </tr>
+                <tr>
+                  <td>ESLint + Prettier + Jest</td>
+                  <td><code>deno lint</code> / <code>deno fmt</code> / <code>deno test</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Get started -->
+      <section class="block" id="start">
+        <div class="container">
+          <h2 class="section-title">Get Started</h2>
+          <p class="section-sub">
+            Clone, then launch the native window. You'll need
+            <a href="https://deno.com/">Deno 2.x</a>.
+          </p>
+          <pre><code><span class="tok-c"># clone the boilerplate</span>
+git clone https://github.com/quochuydev/deno-react-boilerplate
+<span class="tok-g">cd</span> deno-react-boilerplate
+
+<span class="tok-c"># build the renderer + open the desktop window</span>
+deno task start
+
+<span class="tok-c"># or preview in a browser without the native window</span>
+deno task serve   <span class="tok-c"># http://localhost:8000</span></code></pre>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container">
+        <div class="foot-grid">
+          <div>
+            <h4>🦕 Deno React Boilerplate</h4>
+            <p style="color: var(--muted); margin: 0; max-width: 36ch">
+              A foundation for scalable cross-platform desktop apps, built on Deno + React.
+            </p>
+          </div>
+          <div>
+            <h4>Docs</h4>
+            <ul>
+              <li><a href="#start">Getting Started</a></li>
+              <li><a href="#architecture">Architecture</a></li>
+              <li><a href="https://github.com/quochuydev/deno-react-boilerplate#readme">README</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>More</h4>
+            <ul>
+              <li><a href="https://github.com/quochuydev/deno-react-boilerplate">GitHub</a></li>
+              <li><a href="https://deno.com/">Deno</a></li>
+              <li><a href="https://react.dev/">React</a></li>
+            </ul>
+          </div>
+        </div>
+        <p class="copyright">
+          Inspired by
+          <a href="https://electron-react-boilerplate.js.org/">electron-react-boilerplate</a>.
+          Built with 🦕 Deno + ⚛️ React. MIT Licensed.
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
