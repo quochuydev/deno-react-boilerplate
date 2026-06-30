@@ -1,4 +1,4 @@
-// The Deno-desktop analog of an Electron preload script.
+// The webview preload bridge.
 //
 // This source is injected inline into the webview <head> (see src/main/html.ts)
 // and runs before the renderer bundle. It exposes a small, typed RPC surface as

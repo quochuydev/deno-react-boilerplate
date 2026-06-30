@@ -445,7 +445,7 @@
         <div class="container">
           <h2 class="section-title">Everything you need, nothing you don't</h2>
           <p class="section-sub">
-            The electron-react-boilerplate experience, reimagined on the Deno runtime.
+            A complete starting point for cross-platform desktop apps on the Deno runtime.
           </p>
           <div class="features">
             <div class="feature">
@@ -516,46 +516,42 @@
       <!-- Architecture -->
       <section class="block" id="architecture">
         <div class="container">
-          <h2 class="section-title">From Electron to Deno</h2>
+          <h2 class="section-title">How it's organized</h2>
           <p class="section-sub">
-            Same mental model as electron-react-boilerplate — mapped onto the Deno desktop runtime.
+            A clear split between the Deno backend and your React UI, wired together over a typed RPC bridge.
           </p>
           <div class="table-wrap">
             <table>
               <thead>
                 <tr>
-                  <th>Electron concept</th>
-                  <th>Here (Deno + React)</th>
+                  <th>Part</th>
+                  <th>Responsibility</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td>Main process (Node)</td>
-                  <td><code>src/main/</code> — server, auto-update, RPC handlers</td>
+                  <td><code>src/main/</code></td>
+                  <td>Deno backend — local server, auto-update, and RPC handlers</td>
                 </tr>
                 <tr>
-                  <td>Preload / context bridge</td>
-                  <td><code>src/preload/bridge.ts</code> → injected <code>window.eva</code></td>
+                  <td><code>src/preload/bridge.ts</code></td>
+                  <td>Injects <code>window.eva</code>, the renderer's typed RPC client</td>
                 </tr>
                 <tr>
-                  <td>IPC (ipcMain / ipcRenderer)</td>
-                  <td>HTTP-RPC routes <code>/rpc/:channel</code> + <code>window.eva.invoke()</code></td>
+                  <td><code>/rpc/:channel</code></td>
+                  <td>How the UI talks to the backend via <code>window.eva.invoke()</code></td>
                 </tr>
                 <tr>
-                  <td>Renderer (React in Chromium)</td>
-                  <td><code>src/renderer/</code> — React in the webview</td>
+                  <td><code>src/renderer/</code></td>
+                  <td>Your React UI, rendered in the native webview</td>
                 </tr>
                 <tr>
-                  <td>webpack (.erb/configs)</td>
-                  <td><code>deno.json</code> tasks + esbuild</td>
+                  <td><code>deno.json</code> + esbuild</td>
+                  <td>Tasks, dependencies, and the renderer bundle</td>
                 </tr>
                 <tr>
-                  <td>package.json / tsconfig.json</td>
-                  <td><code>deno.json</code></td>
-                </tr>
-                <tr>
-                  <td>ESLint + Prettier + Jest</td>
-                  <td><code>deno lint</code> / <code>deno fmt</code> / <code>deno test</code></td>
+                  <td><code>deno fmt / lint / test</code></td>
+                  <td>Formatting, linting, and tests — built in</td>
                 </tr>
               </tbody>
             </table>
@@ -612,8 +608,6 @@ deno task serve   <span class="tok-c"># http://localhost:8000</span></code></pre
         </div>
         <p class="copyright">
           <svg class="ico-xs" aria-hidden="true"><use href="#i-logo" /></svg>
-          Inspired by
-          <a href="https://electron-react-boilerplate.js.org/">electron-react-boilerplate</a>.
           Built with Deno + React. MIT Licensed.
         </p>
       </div>

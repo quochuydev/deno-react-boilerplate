@@ -57,5 +57,4 @@ instead? Run `deno task serve` and open <http://localhost:8000>.
 
 ## License
 
-MIT. Inspired by
-[electron-react-boilerplate](https://electron-react-boilerplate.js.org/).
+MIT.
