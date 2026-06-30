@@ -30,4 +30,19 @@ jobs:
         with:
           name: ${{ github.ref_name }}
           generate_release_notes: true
+          append_body: true
+          body: |
+            **Download:** `EvaKiosk.dmg` (macOS, Apple Silicon) below.
+
+            ### Install
+
+            1. Open `EvaKiosk.dmg` and drag **EvaKiosk** to **Applications**.
+            2. On first launch macOS will say **"EvaKiosk" Not Opened** — this build is **ad-hoc signed** (no Apple Developer ID yet), so Gatekeeper can't verify it. To open it anyway, pick one:
+               - **Finder:** right-click the app → **Open** → **Open**, or
+               - **System Settings → Privacy & Security →** click **Open Anyway**, or
+               - **Terminal:** `xattr -dr com.apple.quarantine "/Applications/EvaKiosk.app"`
+
+            After that it opens normally.
+
+            ---
           files: release/EvaKiosk.dmg
