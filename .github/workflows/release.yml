@@ -1,0 +1,33 @@
+name: Release
+
+# Push a version tag (e.g. `git tag v0.1.1 && git push origin v0.1.1`) to build
+# the desktop app and publish it as a GitHub Release with the artifact attached.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Install dependencies
+        run: deno install
+
+      - name: Build macOS .dmg
+        run: deno task build:mac
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: ${{ github.ref_name }}
+          generate_release_notes: true
+          files: release/EvaKiosk.dmg

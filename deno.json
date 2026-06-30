@@ -36,9 +36,9 @@
     }
   },
   "fmt": {
-    "exclude": ["dist/", "release/", "**/*.app"]
+    "exclude": ["dist/", "release/", "node_modules/", "**/*.app"]
   },
   "lint": {
-    "exclude": ["dist/", "release/", "**/*.app"]
+    "exclude": ["dist/", "release/", "node_modules/", "**/*.app"]
   }
 }
