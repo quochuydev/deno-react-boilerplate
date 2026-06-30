@@ -2,11 +2,11 @@
   "version": "0.1.0",
   "tasks": {
     "build:renderer": "deno run -A scripts/build_renderer.ts",
-    "dev": "deno run -A scripts/build_renderer.ts --watch & deno desktop --hmr main.ts",
-    "start": "deno task build:renderer && deno desktop main.ts",
+    "dev": "deno run -A scripts/build_renderer.ts --watch & deno desktop --include dist --hmr main.ts",
+    "start": "deno task build:renderer && deno desktop --include dist main.ts",
     "serve": "deno task build:renderer && deno run --allow-net --allow-read main.ts",
-    "build:mac": "deno task build:renderer && deno desktop --output release/EvaKiosk.dmg main.ts",
-    "build:all": "deno task build:renderer && deno desktop --all-targets main.ts",
+    "build:mac": "deno task build:renderer && deno desktop --include dist --output release/EvaKiosk.dmg main.ts",
+    "build:all": "deno task build:renderer && deno desktop --include dist --all-targets main.ts",
     "fmt": "deno fmt",
     "lint": "deno lint",
     "test": "deno test -A"
