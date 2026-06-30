@@ -10,7 +10,7 @@
     />
     <link
       rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A6%95%3C/text%3E%3C/svg%3E"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2322c55e' stroke-width='1.6'%3E%3Ccircle cx='12' cy='12' r='1.7' fill='%2322c55e' stroke='none'/%3E%3Cellipse cx='12' cy='12' rx='10' ry='4'/%3E%3Cellipse cx='12' cy='12' rx='10' ry='4' transform='rotate(60 12 12)'/%3E%3Cellipse cx='12' cy='12' rx='10' ry='4' transform='rotate(120 12 12)'/%3E%3C/svg%3E"
     />
     <style>
     :root {
@@ -74,7 +74,20 @@
       font-size: 1.05rem;
     }
     .brand .logo {
-      font-size: 1.6rem;
+      width: 26px;
+      height: 26px;
+      color: var(--green-bright);
+    }
+    .sprite {
+      position: absolute;
+      width: 0;
+      height: 0;
+      overflow: hidden;
+    }
+    .icon {
+      display: block;
+      width: 32px;
+      height: 32px;
     }
     .nav .spacer {
       flex: 1;
@@ -105,8 +118,10 @@
       );
     }
     .hero .logo-big {
-      font-size: 4.5rem;
-      line-height: 1;
+      width: 76px;
+      height: 76px;
+      margin: 0 auto;
+      color: var(--green-bright);
     }
     .hero h1 {
       font-size: clamp(2rem, 5vw, 3.25rem);
@@ -199,8 +214,22 @@
       padding: 1.6rem;
     }
     .feature .icon {
-      font-size: 1.8rem;
-      margin-bottom: 0.6rem;
+      color: var(--green-bright);
+      margin-bottom: 0.8rem;
+    }
+    .foot-logo {
+      width: 18px;
+      height: 18px;
+      vertical-align: -3px;
+      margin-right: 0.4rem;
+      color: var(--green-bright);
+    }
+    .ico-xs {
+      width: 14px;
+      height: 14px;
+      vertical-align: -2px;
+      margin-right: 0.35rem;
+      color: var(--green-bright);
     }
     .feature h3 {
       margin: 0 0 0.4rem;
@@ -309,10 +338,69 @@
     </style>
   </head>
   <body>
+    <!-- Inline SVG icon sprite (no system/emoji icons) -->
+    <svg class="sprite" aria-hidden="true" focusable="false">
+      <defs>
+        <symbol id="i-logo" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="1.6">
+          <circle cx="12" cy="12" r="1.7" fill="currentColor" stroke="none" />
+          <ellipse cx="12" cy="12" rx="10" ry="4" />
+          <ellipse cx="12" cy="12" rx="10" ry="4"
+            transform="rotate(60 12 12)" />
+          <ellipse cx="12" cy="12" rx="10" ry="4"
+            transform="rotate(120 12 12)" />
+        </symbol>
+        <symbol id="i-bolt" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+        </symbol>
+        <symbol id="i-code" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <polyline points="16 18 22 12 16 6" />
+          <polyline points="8 6 2 12 8 18" />
+        </symbol>
+        <symbol id="i-package" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M16.5 9.4 7.5 4.21" />
+          <path
+            d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+          <line x1="12" y1="22.08" x2="12" y2="12" />
+        </symbol>
+        <symbol id="i-lock" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+          <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+        </symbol>
+        <symbol id="i-refresh" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <polyline points="23 4 23 10 17 10" />
+          <polyline points="1 20 1 14 7 14" />
+          <path
+            d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
+        </symbol>
+        <symbol id="i-beaker" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path
+            d="M9 3v6l-4.6 8.6A1.5 1.5 0 0 0 5.7 20h12.6a1.5 1.5 0 0 0 1.3-2.4L15 9V3" />
+          <line x1="8" y1="3" x2="16" y2="3" />
+          <line x1="6.5" y1="14" x2="17.5" y2="14" />
+        </symbol>
+      </defs>
+    </svg>
+
     <header>
       <div class="container nav">
         <a class="brand" href="#top">
-          <span class="logo">🦕</span>
+          <svg class="logo" aria-hidden="true">
+            <use href="#i-logo" />
+          </svg>
           <span>Deno React Boilerplate</span>
         </a>
         <span class="spacer"></span>
@@ -328,7 +416,9 @@
       <!-- Hero -->
       <div class="hero">
         <div class="container">
-          <div class="logo-big">🦕⚛️</div>
+          <svg class="logo-big" aria-hidden="true">
+            <use href="#i-logo" />
+          </svg>
           <h1>A Foundation for Scalable Cross-Platform Desktop Apps</h1>
           <p class="tagline">
             A desktop-app boilerplate built on <strong>deno desktop</strong> + <strong>React</strong>.
@@ -359,7 +449,9 @@
           </p>
           <div class="features">
             <div class="feature">
-              <div class="icon">⚡</div>
+              <svg class="icon" aria-hidden="true">
+                <use href="#i-bolt" />
+              </svg>
               <h3>Faster Iteration: Hot Reloading</h3>
               <p>
                 Edit your app and see changes instantly. <span class="code-inline">deno desktop --hmr</span>
@@ -367,7 +459,9 @@
               </p>
             </div>
             <div class="feature">
-              <div class="icon">🧩</div>
+              <svg class="icon" aria-hidden="true">
+                <use href="#i-code" />
+              </svg>
               <h3>Scalable: Native TypeScript</h3>
               <p>
                 Deno runs TypeScript with zero config. Shared channel types flow across the
@@ -375,7 +469,9 @@
               </p>
             </div>
             <div class="feature">
-              <div class="icon">📦</div>
+              <svg class="icon" aria-hidden="true">
+                <use href="#i-package" />
+              </svg>
               <h3>Performance: esbuild Bundling</h3>
               <p>
                 The renderer is bundled and minified by esbuild — React included locally, no CDN.
@@ -383,7 +479,9 @@
               </p>
             </div>
             <div class="feature">
-              <div class="icon">🔒</div>
+              <svg class="icon" aria-hidden="true">
+                <use href="#i-lock" />
+              </svg>
               <h3>Secure by Default</h3>
               <p>
                 Deno's permission model means the app only gets the network and file access you
@@ -391,7 +489,9 @@
               </p>
             </div>
             <div class="feature">
-              <div class="icon">🔄</div>
+              <svg class="icon" aria-hidden="true">
+                <use href="#i-refresh" />
+              </svg>
               <h3>Built-in Auto-Update</h3>
               <p>
                 <span class="code-inline">Deno.autoUpdate</span> polls your release server and stages
@@ -399,7 +499,9 @@
               </p>
             </div>
             <div class="feature">
-              <div class="icon">🧪</div>
+              <svg class="icon" aria-hidden="true">
+                <use href="#i-beaker" />
+              </svg>
               <h3>Batteries Included</h3>
               <p>
                 <span class="code-inline">deno fmt</span>, <span class="code-inline">deno lint</span>,
@@ -486,7 +588,7 @@ deno task serve   <span class="tok-c"># http://localhost:8000</span></code></pre
       <div class="container">
         <div class="foot-grid">
           <div>
-            <h4>🦕 Deno React Boilerplate</h4>
+            <h4><svg class="foot-logo" aria-hidden="true"><use href="#i-logo" /></svg>Deno React Boilerplate</h4>
             <p style="color: var(--muted); margin: 0; max-width: 36ch">
               A foundation for scalable cross-platform desktop apps, built on Deno + React.
             </p>
@@ -509,9 +611,10 @@ deno task serve   <span class="tok-c"># http://localhost:8000</span></code></pre
           </div>
         </div>
         <p class="copyright">
+          <svg class="ico-xs" aria-hidden="true"><use href="#i-logo" /></svg>
           Inspired by
           <a href="https://electron-react-boilerplate.js.org/">electron-react-boilerplate</a>.
-          Built with 🦕 Deno + ⚛️ React. MIT Licensed.
+          Built with Deno + React. MIT Licensed.
         </p>
       </div>
     </footer>
